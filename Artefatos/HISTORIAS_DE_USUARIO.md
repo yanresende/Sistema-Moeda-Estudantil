@@ -1,0 +1,8 @@
+ * *US01 - Cadastro de Aluno:* Como aluno, desejo me cadastrar no sistema informando meu nome, email, CPF, RG, endereço, instituição e curso, para ingressar no sistema de mérito.
+ * *US02 - Envio de Moedas:* Como professor, desejo enviar moedas para um aluno, indicando o montante e incluindo uma mensagem aberta obrigatória como motivo, para reconhecer o bom comportamento ou participação.
+ * *US03 - Consulta de Extrato:* Como usuário (aluno ou professor), desejo consultar o extrato da minha conta para visualizar meu saldo atual e as transações de envio, recebimento ou troca que realizei.
+ * *US04 - Cadastro de Vantagens:* Como empresa parceira, desejo cadastrar as vantagens que ofereço, adicionando uma descrição, foto do produto e o custo de cada uma em moedas.
+ * *US05 - Troca de Moedas:* Como aluno, desejo trocar minhas moedas por vantagens cadastradas pelas empresas parceiras, tendo o valor descontado do meu saldo.
+ * *US06 - Cupom de Resgate (Aluno):* Como aluno, desejo receber um email com um cupom contendo um código gerado pelo sistema ao resgatar uma vantagem, para poder utilizá-lo na troca presencial.
+ * *US07 - Notificação de Parceiro:* Como empresa parceira, desejo receber um email com o código gerado quando um aluno resgata uma de minhas vantagens, para facilitar a conferência da troca.
+ * *US08 - Autenticação:* Como usuário do sistema (aluno, professor ou empresa), desejo realizar autenticação usando login e senha para acessar as funcionalidades com segurança.
