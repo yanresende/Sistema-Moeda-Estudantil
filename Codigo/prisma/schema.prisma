@@ -1,0 +1,166 @@
+// ============================================================
+// Schema Prisma — Sistema de Moeda Estudantil
+// Modelado a partir do Diagrama de Classes (UML)
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────
+
+enum Role {
+  ALUNO
+  PROFESSOR
+  EMPRESA
+}
+
+enum TipoTransacao {
+  ENVIO   // Professor → Aluno
+  RESGATE // Aluno → troca por Vantagem (moedas debitadas)
+}
+
+// ─── Usuário base (herança via Role) ─────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  senha     String   // hash bcrypt
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  aluno     Aluno?
+  professor Professor?
+  empresa   EmpresaParceira?
+
+  @@map("users")
+}
+
+// ─── Aluno ───────────────────────────────────────────────────
+
+model Aluno {
+  id            String @id @default(cuid())
+  userId        String @unique
+  nome          String
+  cpf           String @unique
+  rg            String
+  endereco      String
+  curso         String
+  instituicaoId String
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  instituicao Instituicao @relation(fields: [instituicaoId], references: [id])
+  conta       Conta?
+
+  @@map("alunos")
+}
+
+// ─── Professor ───────────────────────────────────────────────
+
+model Professor {
+  id            String @id @default(cuid())
+  userId        String @unique
+  nome          String
+  cpf           String @unique
+  departamento  String
+  instituicaoId String
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  instituicao Instituicao @relation(fields: [instituicaoId], references: [id])
+  conta       Conta?
+
+  @@map("professores")
+}
+
+// ─── Empresa Parceira ─────────────────────────────────────────
+
+model EmpresaParceira {
+  id     String @id @default(cuid())
+  userId String @unique
+  nome   String
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conta     Conta?
+  vantagens Vantagem[]
+
+  @@map("empresas_parceiras")
+}
+
+// ─── Instituição ──────────────────────────────────────────────
+
+model Instituicao {
+  id   String @id @default(cuid())
+  nome String @unique
+
+  alunos      Aluno[]
+  professores Professor[]
+
+  @@map("instituicoes")
+}
+
+// ─── Conta (pertence a Aluno, Professor ou Empresa) ──────────
+// Exatamente um dos três FKs deve ser não-nulo (invariante de aplicação)
+
+model Conta {
+  id    String @id @default(cuid())
+  saldo Int    @default(0)
+
+  alunoId     String? @unique
+  professorId String? @unique
+  empresaId   String? @unique
+
+  aluno     Aluno?           @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  professor Professor?       @relation(fields: [professorId], references: [id], onDelete: Cascade)
+  empresa   EmpresaParceira? @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+
+  transacoesEnviadas  Transacao[] @relation("ContaOrigem")
+  transacoesRecebidas Transacao[] @relation("ContaDestino")
+
+  @@map("contas")
+}
+
+// ─── Vantagem (oferecida por EmpresaParceira) ─────────────────
+
+model Vantagem {
+  id          String @id @default(cuid())
+  descricao   String
+  foto        String? // URL ou caminho da imagem
+  custoMoedas Int
+  empresaId   String
+  ativa       Boolean @default(true)
+  criadaEm   DateTime @default(now())
+
+  empresa    EmpresaParceira @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  transacoes Transacao[]
+
+  @@map("vantagens")
+}
+
+// ─── Transação ────────────────────────────────────────────────
+// ENVIO:   contaOrigem=professor, contaDestino=aluno
+// RESGATE: contaOrigem=aluno,     contaDestino=empresa, vantagemId=vantagem resgatada
+
+model Transacao {
+  id          String        @id @default(cuid())
+  data        DateTime      @default(now())
+  valor       Int
+  tipo        TipoTransacao
+  motivo      String?       // Obrigatório em ENVIO (mensagem do professor)
+  codigoCupom String?       @unique // Gerado no RESGATE (US06 / US07)
+
+  contaOrigemId  String?
+  contaDestinoId String?
+  vantagemId     String?
+
+  contaOrigem  Conta?    @relation("ContaOrigem", fields: [contaOrigemId], references: [id])
+  contaDestino Conta?    @relation("ContaDestino", fields: [contaDestinoId], references: [id])
+  vantagem     Vantagem? @relation(fields: [vantagemId], references: [id])
+
+  @@map("transacoes")
+}

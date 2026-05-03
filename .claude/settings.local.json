@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\sares\\\\Downloads\\\\Projeto\\\\Sistema-Moeda-Estudantil\" -Recurse -Force)",
+      "Bash(Select-Object -Property FullName, PSIsContainer)",
+      "Bash(ConvertTo-Json)",
+      "Bash(Out-String)",
+      "Bash(dir \"c:\\\\Users\\\\sares\\\\Downloads\\\\Projeto\\\\Sistema-Moeda-Estudantil\")"
+    ]
+  }
+}
