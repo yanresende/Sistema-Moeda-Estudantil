@@ -53,7 +53,7 @@ export async function cadastrarAluno(
   }
 }
 
-// ─── US05 + US06 + US07: Resgate de Vantagem ─────────────────
+// ─── US05 + US06: Resgate de Vantagem ────────────────────────
 
 export type ResgateState = {
   error?: string;
@@ -76,27 +76,17 @@ export async function resgataVantagem(
       vantagemId,
     });
 
-    // Busca dados do aluno para o email
     const aluno = await prisma.aluno.findUniqueOrThrow({
       where: { id: session.user.alunoId },
       include: { user: true },
     });
 
-    // US06 — Email para o aluno
+    // US06 — Email com cupom para o aluno
     await EmailService.enviarCupomAluno({
       emailAluno: aluno.user.email,
       nomeAluno: aluno.nome,
       nomeVantagem: vantagem.descricao,
       codigoCupom,
-    });
-
-    // US07 — Email para a empresa
-    await EmailService.notificarEmpresa({
-      emailEmpresa: vantagem.empresa.user.email,
-      nomeEmpresa: vantagem.empresa.nome,
-      nomeVantagem: vantagem.descricao,
-      codigoCupom,
-      nomeAluno: aluno.nome,
     });
 
     revalidatePath("/aluno");
