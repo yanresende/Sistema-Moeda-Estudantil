@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ProfessorService } from "@/services/professor.service";
+import { EmailService } from "@/services/email.service";
+import { prisma } from "@/lib/prisma";
 
 // ─── US02: Envio de Moedas ────────────────────────────────────
 
@@ -50,6 +52,27 @@ export async function enviarMoedas(
       quantidade: parsed.data.quantidade,
       motivo: parsed.data.motivo,
     });
+
+    // US03 — Notificar aluno por email ao receber moedas
+    const [aluno, professor] = await Promise.all([
+      prisma.aluno.findUnique({
+        where: { id: parsed.data.alunoId },
+        include: { user: true },
+      }),
+      prisma.professor.findUnique({
+        where: { id: session.user.professorId },
+      }),
+    ]);
+
+    if (aluno && professor) {
+      await EmailService.notificarAlunoRecebeuMoedas({
+        emailAluno: aluno.user.email,
+        nomeAluno: aluno.nome,
+        nomeProfessor: professor.nome,
+        quantidade: parsed.data.quantidade,
+        motivo: parsed.data.motivo,
+      });
+    }
 
     revalidatePath("/professor");
     return { success: true };
