@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-green-600 px-6 py-2 text-white font-medium hover:bg-green-700 disabled:opacity-50 transition"
+      className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-6 py-2 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
     >
       {pending ? "Salvando..." : "Cadastrar vantagem"}
     </button>
@@ -39,7 +39,7 @@ export function CadastroVantagemForm() {
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Descrição da vantagem</label>
+        <label className="block text-sm font-medium text-[#1a5c2a]">Descrição da vantagem</label>
         <textarea
           name="descricao"
           rows={3}
@@ -53,7 +53,7 @@ export function CadastroVantagemForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-[#1a5c2a]">
           URL da foto <span className="text-gray-400 text-xs">(opcional)</span>
         </label>
         <input
@@ -68,7 +68,7 @@ export function CadastroVantagemForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Custo em moedas</label>
+        <label className="block text-sm font-medium text-[#1a5c2a]">Custo em moedas</label>
         <input
           name="custoMoedas"
           type="number"

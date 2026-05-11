@@ -19,7 +19,7 @@ export default async function EnviarMoedasPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800">Enviar Moedas</h1>
+      <h1 className="text-2xl font-bold text-[#1a5c2a]">Enviar Moedas</h1>
       <p className="text-gray-500 text-sm">
         Reconheça um aluno da sua instituição enviando moedas com uma mensagem de motivo.
       </p>

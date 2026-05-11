@@ -33,17 +33,22 @@ export default async function DashboardLayout({
   const links = navLinks[session.user.role] ?? [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 shadow-sm">
+    <div className="min-h-screen bg-[#f0faf2]">
+      <header className="bg-[#1a5c2a] border-b border-[#0d3d1a] shadow-md">
         <div className="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <span className="text-lg font-bold text-blue-700">Moeda Estudantil</span>
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#f5d060] to-[#c9a227] text-sm font-bold text-[#0d2b1a] shadow-sm">
+                M
+              </div>
+              <span className="text-lg font-bold text-[#f0c040]">Moeda Estudantil</span>
+            </div>
             <nav className="flex gap-4">
               {links.map((l) => (
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="text-sm text-gray-600 hover:text-blue-600 transition"
+                  className="text-sm text-green-200 hover:text-[#f0c040] transition font-medium"
                 >
                   {l.label}
                 </Link>
@@ -51,7 +56,7 @@ export default async function DashboardLayout({
             </nav>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500">{session.user.email}</span>
+            <span className="text-sm text-green-300">{session.user.email}</span>
             <SignOutButton />
           </div>
         </div>

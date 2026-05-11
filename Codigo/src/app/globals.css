@@ -4,24 +4,24 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 54 40% 97%;
+    --foreground: 142 55% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 142 55% 10%;
+    --border: 45 55% 72%;
+    --input: 142 25% 88%;
+    --primary: 45 87% 55%;
+    --primary-foreground: 142 55% 10%;
+    --secondary: 142 30% 92%;
+    --secondary-foreground: 142 55% 15%;
+    --muted: 142 20% 94%;
+    --muted-foreground: 142 20% 42%;
+    --accent: 45 87% 55%;
+    --accent-foreground: 142 55% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --ring: 45 87% 55%;
+    --radius: 0.75rem;
   }
 }
 
@@ -34,10 +34,68 @@
   }
 }
 
+@keyframes coinFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.2;
+  }
+  33% {
+    transform: translateY(-22px) rotate(120deg);
+    opacity: 0.45;
+  }
+  66% {
+    transform: translateY(8px) rotate(240deg);
+    opacity: 0.15;
+  }
+}
+
+@keyframes coinFloat2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(30deg);
+    opacity: 0.15;
+  }
+  40% {
+    transform: translateY(-18px) rotate(150deg);
+    opacity: 0.35;
+  }
+  70% {
+    transform: translateY(6px) rotate(270deg);
+    opacity: 0.2;
+  }
+}
+
 @layer components {
   .input-field {
-    @apply mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-           focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
-           disabled:opacity-50;
+    @apply mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 text-sm shadow-sm
+           focus:border-green-700 focus:outline-none focus:ring-1 focus:ring-green-700
+           disabled:opacity-50 bg-white;
+  }
+
+  .coin-float {
+    animation: coinFloat 6s ease-in-out infinite;
+  }
+
+  .coin-float-2 {
+    animation: coinFloat2 7.5s ease-in-out infinite;
+  }
+
+  .coin-float-delay-1 {
+    animation: coinFloat 7s ease-in-out 1.2s infinite;
+  }
+
+  .coin-float-delay-2 {
+    animation: coinFloat2 5.5s ease-in-out 2.4s infinite;
+  }
+
+  .coin-float-delay-3 {
+    animation: coinFloat 8s ease-in-out 0.8s infinite;
+  }
+
+  .coin-float-delay-4 {
+    animation: coinFloat2 6.5s ease-in-out 3.2s infinite;
+  }
+
+  .coin-float-delay-5 {
+    animation: coinFloat 5s ease-in-out 1.8s infinite;
   }
 }

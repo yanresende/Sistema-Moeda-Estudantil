@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-indigo-600 px-6 py-2 text-white font-medium hover:bg-indigo-700 disabled:opacity-50 transition"
+      className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-6 py-2 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
     >
       {pending ? "Enviando..." : "Enviar moedas"}
     </button>
@@ -31,13 +31,13 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
         </div>
       )}
       {state.success && (
-        <div className="rounded bg-green-50 p-3 text-sm text-green-600">
+        <div className="rounded bg-[#f0faf2] p-3 text-sm text-[#1a5c2a] ring-1 ring-[#2d8a4e]/30">
           Moedas enviadas com sucesso!
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Aluno</label>
+        <label className="block text-sm font-medium text-[#1a5c2a]">Aluno</label>
         <select name="alunoId" required className="mt-1 input-field">
           <option value="">Selecione o aluno...</option>
           {alunos.map((a) => (
@@ -52,7 +52,7 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Quantidade de moedas</label>
+        <label className="block text-sm font-medium text-[#1a5c2a]">Quantidade de moedas</label>
         <input
           name="quantidade"
           type="number"
@@ -67,7 +67,7 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-[#1a5c2a]">
           Motivo <span className="text-gray-400 text-xs">(obrigatório — mín. 10 caracteres)</span>
         </label>
         <textarea

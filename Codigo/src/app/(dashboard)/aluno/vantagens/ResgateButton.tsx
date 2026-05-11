@@ -21,8 +21,8 @@ export function ResgateButton({ vantagemId }: { vantagemId: string }) {
   if (resultado?.cupom) {
     return (
       <div className="text-center">
-        <p className="text-xs text-green-600">Resgatado!</p>
-        <p className="font-mono font-bold text-green-700">{resultado.cupom}</p>
+        <p className="text-xs text-[#1a5c2a] font-medium">Resgatado!</p>
+        <p className="font-mono font-bold text-[#c9a227]">{resultado.cupom}</p>
       </div>
     );
   }
@@ -35,7 +35,7 @@ export function ResgateButton({ vantagemId }: { vantagemId: string }) {
       <button
         onClick={handleResgate}
         disabled={isPending}
-        className="rounded-md bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700 disabled:opacity-50 transition"
+        className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-3 py-1.5 text-sm font-semibold text-[#0d2b1a] hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-sm"
       >
         {isPending ? "Resgatando..." : "Resgatar"}
       </button>

@@ -34,7 +34,7 @@ export function CadastroEmpresaForm() {
           name="nome"
           type="text"
           required
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 text-sm shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white"
         />
         {state.errors?.nome && (
           <p className="mt-1 text-xs text-red-600">{state.errors.nome[0]}</p>
@@ -50,7 +50,7 @@ export function CadastroEmpresaForm() {
           name="email"
           type="email"
           required
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 text-sm shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white"
         />
         {state.errors?.email && (
           <p className="mt-1 text-xs text-red-600">{state.errors.email[0]}</p>
@@ -66,7 +66,7 @@ export function CadastroEmpresaForm() {
           name="senha"
           type="password"
           required
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 text-sm shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white"
         />
         {state.errors?.senha && (
           <p className="mt-1 text-xs text-red-600">{state.errors.senha[0]}</p>
@@ -76,7 +76,7 @@ export function CadastroEmpresaForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-50"
+        className="w-full rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-4 py-2.5 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
       >
         {isPending ? "Cadastrando..." : "Cadastrar empresa"}
       </button>

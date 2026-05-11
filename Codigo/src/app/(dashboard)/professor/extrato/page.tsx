@@ -9,10 +9,10 @@ export default async function ExtratoProfessorPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Extrato de Envios</h1>
-        <div className="rounded-lg bg-indigo-50 px-4 py-2">
+        <h1 className="text-2xl font-bold text-[#1a5c2a]">Extrato de Envios</h1>
+        <div className="rounded-lg bg-[#fef9e7] px-4 py-2 ring-1 ring-[#f0c040]/40">
           <span className="text-sm text-gray-600">Saldo disponível: </span>
-          <span className="font-bold text-indigo-700">{conta?.saldo ?? 0} moedas</span>
+          <span className="font-bold text-[#c9a227]">{conta?.saldo ?? 0} moedas</span>
         </div>
       </div>
 
@@ -23,10 +23,10 @@ export default async function ExtratoProfessorPage() {
           {conta!.transacoesEnviadas.map((t) => (
             <div
               key={t.id}
-              className="flex items-center justify-between rounded-lg border bg-white p-4 shadow-sm"
+              className="flex items-center justify-between rounded-lg border-2 border-[#2d8a4e]/15 bg-white p-4 shadow-sm hover:border-[#f0c040]/30 transition"
             >
               <div>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-[#1a5c2a]">
                   Enviado para: {t.contaDestino?.aluno?.nome ?? "Aluno"}
                 </p>
                 <p className="text-sm text-gray-500">{t.motivo}</p>

@@ -44,7 +44,7 @@ export function LoginForm() {
           type="email"
           required
           autoComplete="email"
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white text-sm"
         />
       </div>
       <div>
@@ -57,7 +57,7 @@ export function LoginForm() {
           type="password"
           required
           autoComplete="current-password"
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white text-sm"
         />
       </div>
       {error && (
@@ -66,7 +66,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-md bg-blue-600 px-4 py-2 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition"
+        className="w-full rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-4 py-2.5 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
       >
         {loading ? "Entrando..." : "Entrar"}
       </button>

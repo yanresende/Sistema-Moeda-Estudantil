@@ -10,10 +10,10 @@ export default async function VantagensEmpresaPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Minhas Vantagens</h1>
+        <h1 className="text-2xl font-bold text-[#1a5c2a]">Minhas Vantagens</h1>
         <Link
           href="/empresa/vantagens/nova"
-          className="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 transition"
+          className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-4 py-2 text-sm font-semibold text-[#0d2b1a] hover:from-[#d4a017] hover:to-[#b8901f] transition shadow-md"
         >
           + Nova vantagem
         </Link>
@@ -28,21 +28,21 @@ export default async function VantagensEmpresaPage() {
           {vantagens.map((v) => (
             <div
               key={v.id}
-              className="flex items-center justify-between rounded-lg border bg-white p-4 shadow-sm"
+              className="flex items-center justify-between rounded-lg border-2 border-[#2d8a4e]/15 bg-white p-4 shadow-sm hover:border-[#f0c040]/30 transition"
             >
               <div>
-                <p className="font-medium text-gray-800">{v.descricao}</p>
+                <p className="font-medium text-[#1a5c2a]">{v.descricao}</p>
                 <p className="text-xs text-gray-400">
                   Criada em {new Date(v.criadaEm).toLocaleDateString("pt-BR")}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-bold text-green-700">
+                <span className="rounded-full bg-[#fef9e7] px-3 py-1 text-sm font-bold text-[#c9a227] ring-1 ring-[#f0c040]/30">
                   {v.custoMoedas} moedas
                 </span>
                 <span
                   className={`text-xs font-medium ${
-                    v.ativa ? "text-green-600" : "text-gray-400"
+                    v.ativa ? "text-[#1a5c2a]" : "text-gray-400"
                   }`}
                 >
                   {v.ativa ? "Ativa" : "Inativa"}
