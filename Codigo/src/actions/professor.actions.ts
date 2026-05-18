@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ProfessorService } from "@/services/professor.service";
-import { EmailService } from "@/services/email.service";
+import { QueueService } from "@/services/queue.service";
 import { prisma } from "@/lib/prisma";
 
 // ─── US02: Envio de Moedas ────────────────────────────────────
@@ -46,6 +46,7 @@ export async function enviarMoedas(
   }
 
   try {
+    // 1. Persiste a transação no banco de dados
     await ProfessorService.enviarMoedas({
       professorId: session.user.professorId,
       alunoId: parsed.data.alunoId,
@@ -53,7 +54,7 @@ export async function enviarMoedas(
       motivo: parsed.data.motivo,
     });
 
-    // US03 — Notificar aluno por email ao receber moedas
+    // 2. Busca dados para montar o payload do email
     const [aluno, professor] = await Promise.all([
       prisma.aluno.findUnique({
         where: { id: parsed.data.alunoId },
@@ -64,8 +65,9 @@ export async function enviarMoedas(
       }),
     ]);
 
+    // 3. US03 — Publica evento na fila (assíncrono, não bloqueia a resposta)
     if (aluno && professor) {
-      await EmailService.notificarAlunoRecebeuMoedas({
+      await QueueService.publishEmailMoedas({
         emailAluno: aluno.user.email,
         nomeAluno: aluno.nome,
         nomeProfessor: professor.nome,

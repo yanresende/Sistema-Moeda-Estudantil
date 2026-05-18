@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AlunoService } from "@/services/aluno.service";
-import { EmailService } from "@/services/email.service";
+import { QueueService } from "@/services/queue.service";
 import { prisma } from "@/lib/prisma";
 
 // ─── US01: Cadastro de Aluno ──────────────────────────────────
@@ -76,15 +76,24 @@ export async function resgataVantagem(
       vantagemId,
     });
 
-    const aluno = await prisma.aluno.findUniqueOrThrow({
-      where: { id: session.user.alunoId },
-      include: { user: true },
-    });
+    // 1. Busca aluno e empresa para montar o payload do email
+    const [aluno, empresa] = await Promise.all([
+      prisma.aluno.findUniqueOrThrow({
+        where: { id: session.user.alunoId },
+        include: { user: true },
+      }),
+      prisma.empresaParceira.findUniqueOrThrow({
+        where: { id: vantagem.empresaId },
+        include: { user: true },
+      }),
+    ]);
 
-    // US06 — Email com cupom para o aluno
-    await EmailService.enviarCupomAluno({
+    // 2. US06 / US07 — Publica evento na fila (envia cupom ao aluno + aviso à empresa)
+    await QueueService.publishEmailResgate({
       emailAluno: aluno.user.email,
       nomeAluno: aluno.nome,
+      emailEmpresa: empresa.user.email,
+      nomeEmpresa: empresa.nome,
       nomeVantagem: vantagem.descricao,
       codigoCupom,
     });
