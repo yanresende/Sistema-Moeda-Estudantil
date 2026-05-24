@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ProfessorService } from "@/services/professor.service";
-import { EmailService } from "@/services/email.service";
+import { publishToQueue } from "@/lib/rabbitmq";
+import { Queues } from "@/lib/queues";
 import { prisma } from "@/lib/prisma";
 
 // ─── US02: Envio de Moedas ────────────────────────────────────
@@ -65,13 +66,13 @@ export async function enviarMoedas(
     ]);
 
     if (aluno && professor) {
-      await EmailService.notificarAlunoRecebeuMoedas({
-        emailAluno: aluno.user.email,
-        nomeAluno: aluno.nome,
+      publishToQueue(Queues.EMAIL_MOEDAS_RECEBIDAS, {
+        emailAluno:    aluno.user.email,
+        nomeAluno:     aluno.nome,
         nomeProfessor: professor.nome,
-        quantidade: parsed.data.quantidade,
-        motivo: parsed.data.motivo,
-      });
+        quantidade:    parsed.data.quantidade,
+        motivo:        parsed.data.motivo,
+      }).catch((err) => console.error("[enviarMoedas] fila indisponível:", err));
     }
 
     revalidatePath("/professor");

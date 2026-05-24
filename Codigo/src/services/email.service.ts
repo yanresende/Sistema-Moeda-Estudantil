@@ -62,4 +62,27 @@ export const EmailService = {
       codigo_cupom:  codigoCupom,
     });
   },
+
+  // US07 — Notificação à empresa quando um aluno resgata uma vantagem
+  async notificarEmpresaResgate({
+    emailEmpresa,
+    nomeEmpresa,
+    nomeAluno,
+    nomeVantagem,
+    codigoCupom,
+  }: {
+    emailEmpresa: string;
+    nomeEmpresa: string;
+    nomeAluno: string;
+    nomeVantagem: string;
+    codigoCupom: string;
+  }) {
+    return sendEmail(process.env.EMAILJS_TEMPLATE_CUPOM_ALUNO!, {
+      to_email:      emailEmpresa,
+      to_name:       nomeEmpresa,
+      aluno_nome:    `Aluno resgatante: ${nomeAluno}`,
+      vantagem_nome: nomeVantagem,
+      codigo_cupom:  codigoCupom,
+    });
+  },
 };

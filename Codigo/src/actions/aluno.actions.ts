@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AlunoService } from "@/services/aluno.service";
-import { EmailService } from "@/services/email.service";
+import { publishToQueue } from "@/lib/rabbitmq";
+import { Queues } from "@/lib/queues";
 import { prisma } from "@/lib/prisma";
 
 // ─── US01: Cadastro de Aluno ──────────────────────────────────
@@ -81,13 +82,22 @@ export async function resgataVantagem(
       include: { user: true },
     });
 
-    // US06 — Email com cupom para o aluno
-    await EmailService.enviarCupomAluno({
-      emailAluno: aluno.user.email,
-      nomeAluno: aluno.nome,
+    // US06 — Cupom para o aluno (assíncrono via fila)
+    publishToQueue(Queues.EMAIL_CUPOM_ALUNO, {
+      emailAluno:   aluno.user.email,
+      nomeAluno:    aluno.nome,
       nomeVantagem: vantagem.descricao,
       codigoCupom,
-    });
+    }).catch((err) => console.error("[resgataVantagem] fila cupom indisponível:", err));
+
+    // US07 — Notificação para a empresa (assíncrono via fila)
+    publishToQueue(Queues.EMAIL_NOTIFICACAO_EMPRESA, {
+      emailEmpresa: vantagem.empresa.user.email,
+      nomeEmpresa:  vantagem.empresa.nome,
+      nomeAluno:    aluno.nome,
+      nomeVantagem: vantagem.descricao,
+      codigoCupom,
+    }).catch((err) => console.error("[resgataVantagem] fila empresa indisponível:", err));
 
     revalidatePath("/aluno");
     return { success: true, codigoCupom };
