@@ -31,7 +31,8 @@ Sistema web para reconhecimento do mérito estudantil por meio de uma moeda virt
 | ORM | Prisma 5 |
 | Banco de dados | PostgreSQL |
 | Autenticação | NextAuth.js 4 (JWT + bcryptjs) |
-| Email | Nodemailer (SMTP) |
+| Email | EmailJS (API) |
+| Filas | RabbitMQ 3.13 (via Docker) |
 | Validação | Zod |
 | Estilo | Tailwind CSS 3 |
 
@@ -67,46 +68,83 @@ Sistema-Moeda-Estudantil/
 ## Pré-requisitos
 
 - Node.js 18+
-- PostgreSQL rodando localmente (ou via Docker)
+- Docker Desktop (para o RabbitMQ)
+- PostgreSQL rodando localmente (porta 5432)
 
-## Configuração
+## Inicialização
 
-1. Clone o repositório e entre na pasta do código:
+> Todos os comandos devem ser executados dentro da pasta `Codigo/`.
+
+### 1. Instalar dependências
 
 ```bash
 cd Codigo
 npm install
 ```
 
-2. Crie o arquivo `.env` na pasta `Codigo/` com as seguintes variáveis:
+### 2. Configurar variáveis de ambiente
+
+Crie o arquivo `.env` na pasta `Codigo/` com as seguintes variáveis:
 
 ```env
+# Banco de dados
 DATABASE_URL="postgresql://usuario:senha@localhost:5432/moeda_estudantil"
 
+# NextAuth
 NEXTAUTH_SECRET="sua-chave-secreta"
 NEXTAUTH_URL="http://localhost:3000"
 
-SMTP_HOST="smtp.example.com"
-SMTP_PORT=587
-SMTP_USER="seu@email.com"
-SMTP_PASS="sua-senha-smtp"
-EMAIL_FROM="noreply@example.com"
+# EmailJS
+EMAILJS_SERVICE_ID="seu-service-id"
+EMAILJS_PUBLIC_KEY="sua-public-key"
+EMAILJS_PRIVATE_KEY="sua-private-key"
+EMAILJS_TEMPLATE_RECEBEU_MOEDAS="template-id"
+EMAILJS_TEMPLATE_CUPOM_ALUNO="template-id"
+EMAILJS_TEMPLATE_NOTIFICACAO_EMPRESA="template-id"
+
+# RabbitMQ
+RABBITMQ_URL="amqp://guest:guest@localhost:5672"
+
+# Renovação semestral
+ADMIN_SECRET="sua-chave-admin"
+SALDO_INICIAL_PROFESSOR=1000
 ```
 
-3. Execute as migrações e popule o banco com dados iniciais:
+### 3. Subir o RabbitMQ (Docker)
 
 ```bash
-npm run db:migrate
-npm run db:seed
+npm run infra:up
 ```
 
-4. Inicie o servidor de desenvolvimento:
+Painel de gerenciamento disponível em [http://localhost:15672](http://localhost:15672) (login: `guest` / `guest`).
 
+### 4. Configurar o banco de dados
+
+```bash
+npm run db:generate   # gera o Prisma Client
+npm run db:migrate    # executa as migrations
+npm run db:seed       # popula dados iniciais (opcional)
+```
+
+### 5. Iniciar os serviços (3 terminais separados)
+
+**Terminal 1 — Aplicação Next.js:**
 ```bash
 npm run dev
 ```
-
 Acesse [http://localhost:3000](http://localhost:3000).
+
+**Terminal 2 — Worker de email (RabbitMQ + EmailJS):**
+```bash
+npm run worker
+```
+
+### Parar tudo
+
+```bash
+npm run infra:down   # para o RabbitMQ (Docker)
+# Ctrl+C nos outros terminais
+```
 
 ## Scripts disponíveis
 
@@ -115,6 +153,9 @@ Acesse [http://localhost:3000](http://localhost:3000).
 | `npm run dev` | Servidor de desenvolvimento |
 | `npm run build` | Build de produção |
 | `npm run start` | Inicia build de produção |
+| `npm run worker` | Worker de email (RabbitMQ + EmailJS) |
+| `npm run infra:up` | Sobe o RabbitMQ via Docker |
+| `npm run infra:down` | Para o RabbitMQ via Docker |
 | `npm run db:migrate` | Executa migrações do banco |
 | `npm run db:seed` | Popula o banco com dados iniciais |
 | `npm run db:studio` | Abre o Prisma Studio |
