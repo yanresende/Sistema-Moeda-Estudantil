@@ -2,7 +2,7 @@ import amqp from "amqplib";
 
 const RABBITMQ_URL = process.env.RABBITMQ_URL ?? "amqp://guest:guest@localhost:5672";
 
-let connection: amqp.Connection | null = null;
+let connection: amqp.ChannelModel | null = null;
 let channel: amqp.Channel | null = null;
 
 async function connect(): Promise<amqp.Channel> {

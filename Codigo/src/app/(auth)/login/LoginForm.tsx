@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
 
 export function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -24,7 +26,7 @@ export function LoginForm() {
     setLoading(false);
 
     if (result?.error) {
-      setError("Email ou senha inválidos.");
+      setError("Email ou senha inválidos. Tente novamente.");
       return;
     }
 
@@ -33,9 +35,9 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="email" className="block text-sm font-medium text-slate-700">
           Email
         </label>
         <input
@@ -44,29 +46,47 @@ export function LoginForm() {
           type="email"
           required
           autoComplete="email"
-          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white text-sm"
+          placeholder="seu@email.com"
+          className="input-field"
         />
       </div>
+
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="password" className="block text-sm font-medium text-slate-700">
           Senha
         </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          className="mt-1 block w-full rounded-md border border-amber-300 px-3 py-2 shadow-sm focus:border-[#1a5c2a] focus:outline-none focus:ring-1 focus:ring-[#1a5c2a] bg-white text-sm"
-        />
+        <div className="relative">
+          <input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            required
+            autoComplete="current-password"
+            placeholder="••••••••"
+            className="input-field pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
       </div>
+
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 rounded p-2">{error}</p>
+        <div className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2.5 text-sm text-red-600 ring-1 ring-red-200">
+          <AlertCircle size={14} className="shrink-0" />
+          {error}
+        </div>
       )}
+
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-4 py-2.5 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
+        className="btn-green w-full"
       >
         {loading ? "Entrando..." : "Entrar"}
       </button>

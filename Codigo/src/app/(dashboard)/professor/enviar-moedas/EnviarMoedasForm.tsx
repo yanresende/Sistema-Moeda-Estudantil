@@ -2,6 +2,7 @@
 
 import { useFormState, useFormStatus } from "react-dom";
 import { enviarMoedas, type EnviarMoedasState } from "@/actions/professor.actions";
+import { CheckCircle2, AlertCircle } from "lucide-react";
 
 type Aluno = { id: string; nome: string; curso: string };
 
@@ -13,9 +14,9 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-6 py-2 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
+      className="btn-primary w-full"
     >
-      {pending ? "Enviando..." : "Enviar moedas"}
+      {pending ? "Enviando moedas..." : "Enviar moedas"}
     </button>
   );
 }
@@ -24,21 +25,24 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
   const [state, action] = useFormState(enviarMoedas, initialState);
 
   return (
-    <form action={action} className="space-y-5 max-w-md">
+    <form action={action} className="space-y-5">
       {state.errors?._form && (
-        <div className="rounded bg-red-50 p-3 text-sm text-red-600">
+        <div className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2.5 text-sm text-red-600 ring-1 ring-red-200">
+          <AlertCircle size={14} className="shrink-0" />
           {state.errors._form[0]}
         </div>
       )}
+
       {state.success && (
-        <div className="rounded bg-[#f0faf2] p-3 text-sm text-[#1a5c2a] ring-1 ring-[#2d8a4e]/30">
+        <div className="flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2.5 text-sm text-green-700 ring-1 ring-green-200">
+          <CheckCircle2 size={14} className="shrink-0" />
           Moedas enviadas com sucesso!
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-[#1a5c2a]">Aluno</label>
-        <select name="alunoId" required className="mt-1 input-field">
+        <label className="block text-sm font-medium text-slate-700">Aluno</label>
+        <select name="alunoId" required className="input-field">
           <option value="">Selecione o aluno...</option>
           {alunos.map((a) => (
             <option key={a.id} value={a.id}>
@@ -52,13 +56,15 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#1a5c2a]">Quantidade de moedas</label>
+        <label className="block text-sm font-medium text-slate-700">
+          Quantidade de moedas
+        </label>
         <input
           name="quantidade"
           type="number"
           min={1}
           required
-          className="mt-1 input-field"
+          className="input-field"
           placeholder="Ex: 10"
         />
         {state.errors?.quantidade && (
@@ -67,14 +73,15 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#1a5c2a]">
-          Motivo <span className="text-gray-400 text-xs">(obrigatório — mín. 10 caracteres)</span>
+        <label className="block text-sm font-medium text-slate-700">
+          Motivo{" "}
+          <span className="font-normal text-slate-400">(mín. 10 caracteres)</span>
         </label>
         <textarea
           name="motivo"
           rows={3}
           required
-          className="mt-1 input-field"
+          className="input-field resize-none"
           placeholder="Descreva o motivo do reconhecimento..."
         />
         {state.errors?.motivo && (
@@ -82,7 +89,9 @@ export function EnviarMoedasForm({ alunos }: { alunos: Aluno[] }) {
         )}
       </div>
 
-      <SubmitButton />
+      <div className="pt-2">
+        <SubmitButton />
+      </div>
     </form>
   );
 }

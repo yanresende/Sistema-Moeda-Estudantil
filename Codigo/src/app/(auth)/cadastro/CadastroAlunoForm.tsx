@@ -15,9 +15,9 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-4 py-2.5 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
+      className="btn-green w-full"
     >
-      {pending ? "Cadastrando..." : "Criar conta"}
+      {pending ? "Criando conta..." : "Criar minha conta"}
     </button>
   );
 }
@@ -39,51 +39,58 @@ export function CadastroAlunoForm({ instituicoes }: { instituicoes: Instituicao[
   }
 
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} className="space-y-5">
       {state.errors?._form && (
-        <div className="rounded bg-red-50 p-3 text-sm text-red-600">
+        <div className="rounded-lg bg-red-50 px-3 py-2.5 text-sm text-red-600 ring-1 ring-red-200">
           {state.errors._form[0]}
         </div>
       )}
 
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Nome completo</label>
+        <input name="nome" type="text" required placeholder="Seu nome completo" className="input-field" />
+        <FieldError field="nome" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Email</label>
+        <input name="email" type="email" required placeholder="seu@email.com" className="input-field" />
+        <FieldError field="email" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Senha</label>
+        <input name="senha" type="password" required placeholder="Mínimo 6 caracteres" className="input-field" />
+        <FieldError field="senha" />
+      </div>
+
       <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">Nome completo</label>
-          <input name="nome" type="text" required className="input-field" />
-          <FieldError field="nome" />
-        </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input name="email" type="email" required className="input-field" />
-          <FieldError field="email" />
-        </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">Senha</label>
-          <input name="senha" type="password" required className="input-field" />
-          <FieldError field="senha" />
-        </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">CPF (só números)</label>
-          <input name="cpf" type="text" maxLength={11} required className="input-field" />
+          <label className="block text-sm font-medium text-slate-700">CPF (só números)</label>
+          <input name="cpf" type="text" maxLength={11} required placeholder="00000000000" className="input-field" />
           <FieldError field="cpf" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">RG</label>
-          <input name="rg" type="text" required className="input-field" />
+          <label className="block text-sm font-medium text-slate-700">RG</label>
+          <input name="rg" type="text" required placeholder="00.000.000-0" className="input-field" />
           <FieldError field="rg" />
         </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">Endereço</label>
-          <input name="endereco" type="text" required className="input-field" />
-          <FieldError field="endereco" />
-        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Endereço</label>
+        <input name="endereco" type="text" required placeholder="Rua, número, bairro, cidade" className="input-field" />
+        <FieldError field="endereco" />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Curso</label>
-          <input name="curso" type="text" required className="input-field" />
+          <label className="block text-sm font-medium text-slate-700">Curso</label>
+          <input name="curso" type="text" required placeholder="Ex: Engenharia" className="input-field" />
           <FieldError field="curso" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Instituição</label>
+          <label className="block text-sm font-medium text-slate-700">Instituição</label>
           <select name="instituicaoId" required className="input-field">
             <option value="">Selecione...</option>
             {instituicoes.map((i) => (
@@ -96,7 +103,9 @@ export function CadastroAlunoForm({ instituicoes }: { instituicoes: Instituicao[
         </div>
       </div>
 
-      <SubmitButton />
+      <div className="pt-2">
+        <SubmitButton />
+      </div>
     </form>
   );
 }

@@ -4,6 +4,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { cadastrarVantagem, type CadastroVantagemState } from "@/actions/empresa.actions";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { AlertCircle } from "lucide-react";
 
 const initialState: CadastroVantagemState = {};
 
@@ -13,7 +14,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-6 py-2 text-[#0d2b1a] font-semibold hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-md"
+      className="btn-primary w-full"
     >
       {pending ? "Salvando..." : "Cadastrar vantagem"}
     </button>
@@ -31,20 +32,23 @@ export function CadastroVantagemForm() {
   }, [state.success, router]);
 
   return (
-    <form action={action} className="space-y-5 max-w-md">
+    <form action={action} className="space-y-5">
       {state.errors?._form && (
-        <div className="rounded bg-red-50 p-3 text-sm text-red-600">
+        <div className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2.5 text-sm text-red-600 ring-1 ring-red-200">
+          <AlertCircle size={14} className="shrink-0" />
           {state.errors._form[0]}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-[#1a5c2a]">Descrição da vantagem</label>
+        <label className="block text-sm font-medium text-slate-700">
+          Descrição da vantagem
+        </label>
         <textarea
           name="descricao"
           rows={3}
           required
-          className="mt-1 input-field"
+          className="input-field resize-none"
           placeholder="Ex: 20% de desconto em produtos selecionados"
         />
         {state.errors?.descricao && (
@@ -53,14 +57,15 @@ export function CadastroVantagemForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#1a5c2a]">
-          URL da foto <span className="text-gray-400 text-xs">(opcional)</span>
+        <label className="block text-sm font-medium text-slate-700">
+          URL da foto{" "}
+          <span className="text-slate-400 font-normal">(opcional)</span>
         </label>
         <input
           name="foto"
           type="url"
-          className="mt-1 input-field"
-          placeholder="https://exemplo.com/foto.jpg"
+          className="input-field"
+          placeholder="https://exemplo.com/imagem.jpg"
         />
         {state.errors?.foto && (
           <p className="mt-1 text-xs text-red-600">{state.errors.foto[0]}</p>
@@ -68,13 +73,15 @@ export function CadastroVantagemForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#1a5c2a]">Custo em moedas</label>
+        <label className="block text-sm font-medium text-slate-700">
+          Custo em moedas
+        </label>
         <input
           name="custoMoedas"
           type="number"
           min={1}
           required
-          className="mt-1 input-field"
+          className="input-field"
           placeholder="Ex: 50"
         />
         {state.errors?.custoMoedas && (
@@ -82,7 +89,9 @@ export function CadastroVantagemForm() {
         )}
       </div>
 
-      <SubmitButton />
+      <div className="pt-2">
+        <SubmitButton />
+      </div>
     </form>
   );
 }

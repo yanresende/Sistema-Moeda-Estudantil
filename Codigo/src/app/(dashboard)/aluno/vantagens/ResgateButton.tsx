@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { resgataVantagem } from "@/actions/aluno.actions";
+import { ShoppingBag, CheckCircle2, AlertCircle } from "lucide-react";
 
 export function ResgateButton({ vantagemId }: { vantagemId: string }) {
   const [isPending, startTransition] = useTransition();
@@ -20,23 +21,32 @@ export function ResgateButton({ vantagemId }: { vantagemId: string }) {
 
   if (resultado?.cupom) {
     return (
-      <div className="text-center">
-        <p className="text-xs text-[#1a5c2a] font-medium">Resgatado!</p>
-        <p className="font-mono font-bold text-[#c9a227]">{resultado.cupom}</p>
+      <div className="text-right">
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-green-600 mb-1">
+          <CheckCircle2 size={12} />
+          Resgatado!
+        </div>
+        <p className="rounded bg-green-50 px-2 py-1 font-mono text-xs font-bold text-green-700 ring-1 ring-green-200">
+          {resultado.cupom}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-1">
+    <div className="text-right space-y-1">
       {resultado?.erro && (
-        <p className="text-xs text-red-600">{resultado.erro}</p>
+        <div className="flex items-center gap-1 text-xs text-red-600">
+          <AlertCircle size={12} />
+          <span>{resultado.erro}</span>
+        </div>
       )}
       <button
         onClick={handleResgate}
         disabled={isPending}
-        className="rounded-md bg-gradient-to-r from-[#f0c040] to-[#c9a227] px-3 py-1.5 text-sm font-semibold text-[#0d2b1a] hover:from-[#d4a017] hover:to-[#b8901f] disabled:opacity-50 transition shadow-sm"
+        className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-all hover:from-amber-600 hover:to-amber-700 disabled:opacity-50"
       >
+        <ShoppingBag size={13} />
         {isPending ? "Resgatando..." : "Resgatar"}
       </button>
     </div>
