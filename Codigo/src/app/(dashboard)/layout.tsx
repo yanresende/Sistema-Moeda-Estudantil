@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { SidebarNav, type NavItem } from "@/components/shared/SidebarNav";
 
 const navLinks: Record<string, NavItem[]> = {
@@ -41,8 +42,8 @@ export default async function DashboardLayout({
           href={`/${session.user.role.toLowerCase()}`}
           className="flex items-center gap-3 border-b border-slate-100 px-5 py-4 transition-opacity hover:opacity-80"
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-sm font-bold text-white shadow-sm">
-            M
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-sm">
+            <Image src="/logo_sistema_moedas2.png" alt="Logo" width={36} height={36} className="object-contain" />
           </div>
           <div className="leading-tight">
             <p className="text-sm font-bold text-slate-900">Moeda</p>
@@ -60,8 +61,8 @@ export default async function DashboardLayout({
       {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-xs font-bold text-white">
-            M
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden">
+            <Image src="/logo_sistema_moedas2.png" alt="Logo" width={32} height={32} className="object-contain" />
           </div>
           <span className="text-sm font-bold text-slate-900">Moeda Estudantil</span>
         </div>

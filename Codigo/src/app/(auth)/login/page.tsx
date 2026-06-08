@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { LoginForm } from "./LoginForm";
 import { GraduationCap, Users, Gift } from "lucide-react";
 
@@ -23,8 +24,8 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="relative z-10">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-base font-bold text-white shadow-lg">
-              M
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl overflow-hidden shadow-lg">
+              <Image src="/logo_sistema_moedas2.png" alt="Logo" width={44} height={44} className="object-contain" />
             </div>
             <div>
               <p className="text-base font-bold text-white">Moeda Estudantil</p>
@@ -75,8 +76,8 @@ export default function LoginPage() {
         <div className="w-full max-w-sm space-y-8">
           {/* Mobile logo */}
           <div className="flex items-center gap-3 lg:hidden">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-sm font-bold text-white">
-              M
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden">
+              <Image src="/logo_sistema_moedas2.png" alt="Logo" width={36} height={36} className="object-contain" />
             </div>
             <span className="text-base font-bold text-slate-900">Moeda Estudantil</span>
           </div>

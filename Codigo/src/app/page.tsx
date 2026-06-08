@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { GraduationCap, Users, Gift, ArrowRight, Star } from "lucide-react";
 
 export default async function HomePage() {
@@ -21,8 +22,8 @@ export default async function HomePage() {
       {/* Navbar */}
       <header className="relative z-20 flex items-center justify-between px-6 py-5 sm:px-12">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-sm font-bold text-white shadow-lg">
-            M
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-lg">
+            <Image src="/logo_sistema_moedas2.png" alt="Logo" width={50} height={50} className="object-contain" />
           </div>
           <span className="text-sm font-bold text-white">Moeda Estudantil</span>
         </div>
