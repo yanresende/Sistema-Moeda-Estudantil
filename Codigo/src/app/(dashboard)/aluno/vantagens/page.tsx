@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { EmpresaService } from "@/services/empresa.service";
 import { ResgateButton } from "./ResgateButton";
 import { Gift, Store } from "lucide-react";
