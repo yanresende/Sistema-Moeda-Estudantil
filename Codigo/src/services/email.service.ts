@@ -60,6 +60,7 @@ export const EmailService = {
       to_name:       nomeAluno,
       vantagem_nome: nomeVantagem,
       codigo_cupom:  codigoCupom,
+      qr_code_url:   `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(codigoCupom)}`,
     });
   },
 
@@ -83,6 +84,7 @@ export const EmailService = {
       aluno_nome:    `Aluno resgatante: ${nomeAluno}`,
       vantagem_nome: nomeVantagem,
       codigo_cupom:  codigoCupom,
+      qr_code_url:   `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(codigoCupom)}`,
     });
   },
 };
